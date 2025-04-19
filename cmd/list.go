@@ -28,7 +28,10 @@ var listCmd = &cobra.Command{
 }
 
 func listRun(cmd *cobra.Command, args []string) {
-	items, err := todo.ReadItems(viper.GetString("datafile"))
+	rawPath := viper.GetString("datafile")
+	expandedPath := os.ExpandEnv(rawPath)
+
+	items, err := todo.ReadItems(expandedPath)
 
 	if err != nil {
 		log.Printf("%v", err)
